@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professional Journey Summary | Aman Kumar Shaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --text: #e8f3f1;
+      --muted: #a9bfba;
+      --accent: #18c7a3;
+      --accent2: #ffcb75;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 0%, rgba(24, 199, 163, 0.22), transparent 32%),
+                  radial-gradient(circle at 88% 8%, rgba(255, 203, 117, 0.2), transparent 30%),
+                  linear-gradient(145deg, #07151c 0%, #0f2632 100%);
+      min-height: 100vh;
+      padding: 26px;
+    }
+    .wrap {
+      width: min(1000px, 100%);
+      margin: 0 auto;
+      background: rgba(16, 42, 54, 0.85);
+      border: 1px solid rgba(143, 211, 192, 0.3);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+    h1 {
+      font-family: "Sora", sans-serif;
+      color: var(--accent2);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+    .intro {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .stat {
+      border: 1px solid rgba(143, 211, 192, 0.26);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .stat h3 {
+      color: #c9fff2;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+    .stat p { color: var(--muted); }
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+    .role {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 14px;
+      padding: 15px;
+    }
+    .role h3 {
+      color: #d9fff7;
+      margin-bottom: 4px;
+    }
+    .role small {
+      color: #ffdca2;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .role p {
+      color: #d5e8e4;
+      line-height: 1.65;
+    }
+    .actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .back {
+      color: #ffdfac;
+      border: 1px solid rgba(255, 203, 117, 0.45);
+      background: rgba(255, 203, 117, 0.08);
+    }
+    .jump {
+      color: #d6fff5;
+      border: 1px solid rgba(24, 199, 163, 0.52);
+      background: rgba(24, 199, 163, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Professional Journey Summary</h1>
+    <p class="intro">
+      Over 7+ years, Aman Kumar Shaw has built deep expertise in Oracle database administration, site reliability engineering, and automation delivery across large-scale enterprise environments.
+    </p>
+
+    <section class="stats">
+      <article class="stat">
+        <h3>7+ Years</h3>
+        <p>Total professional experience</p>
+      </article>
+      <article class="stat">
+        <h3>3 Organizations</h3>
+        <p>Cognizant, Accenture, and Tata Consultancy Services</p>
+      </article>
+      <article class="stat">
+        <h3>Core Focus</h3>
+        <p>Oracle DBA, Automation, Cloud (OCI)</p>
+      </article>
+    </section>
+
+    <section class="timeline">
+      <article class="role">
+        <h3>Site Reliability Engineer</h3>
+        <small>Tata Consultancy Services • Feb 2025 - Present</small>
+        <p>Developed CI/CD pipelines and automation solutions for Oracle databases using Ansible and shell scripting, improving operational efficiency, reliability, and database management processes.</p>
+      </article>
+      <article class="role">
+        <h3>Senior Database Administrator</h3>
+        <small>Tata Consultancy Services • Mar 2022 - Present</small>
+        <p>Managed and optimized Oracle database environments across on-premises and cloud platforms (OCI/AWS), including RAC, Data Guard, Exadata, upgrades, migrations, patching, backup/recovery, performance tuning, and automation. Developed monitoring and reporting solutions using shell scripting while providing production support and reliability engineering for mission-critical systems.</p>
+      </article>
+      <article class="role">
+        <h3>Database Administrator</h3>
+        <small>Accenture • Jan 2020 - Mar 2022</small>
+        <p>Handled production database operations, restorations, patching automation, health checks, and proactive incident reduction for Oracle, PostgreSQL, and MySQL systems.</p>
+      </article>
+      <article class="role">
+        <h3>Oracle Database Administrator</h3>
+        <small>Cognizant Technology Solutions • Nov 2018 - Jan 2020</small>
+        <p>Built foundational expertise in 24x7 production support, capacity planning, Oracle monitoring, and incident resolution for business-critical workloads.</p>
+      </article>
+    </section>
+
+    <div class="actions">
+      <a class="btn back" href="./index.html">Back to Resume</a>
+      <a class="btn jump" href="./index.html#experience">View Full Experience Section</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automation Architecture Summary | Aman Kumar Shaw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Sora:wght@600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --text: #e8f3f1;
+      --muted: #a9bfba;
+      --accent2: #ffcb75;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 10% 0%, rgba(24, 199, 163, 0.22), transparent 32%),
+                  radial-gradient(circle at 88% 8%, rgba(255, 203, 117, 0.2), transparent 30%),
+                  linear-gradient(145deg, #07151c 0%, #0f2632 100%);
+      min-height: 100vh;
+      padding: 26px;
+    }
+    .wrap {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+      background: rgba(16, 42, 54, 0.85);
+      border: 1px solid rgba(143, 211, 192, 0.3);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+    h1 {
+      font-family: "Sora", sans-serif;
+      color: var(--accent2);
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      margin-bottom: 10px;
+    }
+    .intro {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+    .block {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 16px;
+      margin-top: 14px;
+    }
+    .block h2 {
+      color: #cffff3;
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    .block h3 {
+      color: #ffe0ab;
+      font-size: 1.05rem;
+      margin: 10px 0 6px;
+    }
+    .block p, .block li {
+      color: #d9ece8;
+      line-height: 1.75;
+    }
+    .block ul {
+      padding-left: 18px;
+      margin-top: 4px;
+    }
+    .diagram {
+      margin-top: 12px;
+      border: 1px solid rgba(143, 211, 192, 0.3);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .diagram img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .btn {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .back {
+      color: #ffdfac;
+      border: 1px solid rgba(255, 203, 117, 0.45);
+      background: rgba(255, 203, 117, 0.08);
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Automation Architecture Summary</h1>
+    <p class="intro"></p>
+
+    <section class="block">
+      <h2>Automation 1: Automated High Availability Oracle Database Creation Architecture</h2>
+      <p>This diagram shows an automated process for deploying an Oracle High Availability (HA) database environment using GitLab, Ansible, and Oracle Primary/Standby servers.</p>
+
+      <div class="diagram">
+        <img src="./HA_database_creation.jpg" alt="Automated High Availability Oracle Database Creation Architecture Diagram" />
+      </div>
+
+      <h3>1. Automation Server (GitLab)</h3>
+      <ul>
+        <li>Provides a manual deploy button to start the deployment.</li>
+        <li>Stores the CI/CD pipeline configuration (`.gitlab-ci.yml`).</li>
+        <li>Uses a Docker container with Ansible installed.</li>
+      </ul>
+
+      <h3>2. Automation Tool (Ansible)</h3>
+      <ul>
+        <li>Uses an inventory file containing Primary and Standby database servers.</li>
+        <li>Executes the main playbook (`database_creation.yml`).</li>
+        <li>Uses the `database_creation` role to automate Oracle database provisioning and configuration.</li>
+      </ul>
+
+      <h3>3. Database Servers (Oracle Data Guard)</h3>
+      <h3>Primary Server</h3>
+      <ul>
+        <li>Performs prerequisite validation.</li>
+        <li>Installs Oracle 19c software.</li>
+        <li>Creates database, datafile, controlfile, redo log, and audit directories.</li>
+        <li>Creates and configures the primary database.</li>
+        <li>Configures listener, archivelog mode, monitoring user, and Data Guard settings.</li>
+      </ul>
+
+      <h3>Standby Server</h3>
+      <ul>
+        <li>Installs Oracle 19c software.</li>
+        <li>Creates required directories.</li>
+        <li>Configures listener.</li>
+        <li>Receives password and configuration files from the primary server.</li>
+        <li>Starts the instance in NOMOUNT mode.</li>
+        <li>Uses RMAN Duplicate to create the standby database.</li>
+        <li>Applies Data Guard parameter configuration.</li>
+      </ul>
+
+      <h3>Overall Flow</h3>
+      <p>GitLab → Ansible → Oracle Primary & Standby Databases</p>
+      <p>The architecture automates the complete setup of an Oracle Data Guard environment, reducing manual effort and ensuring consistent deployment of a highly available database solution.</p>
+    </section>
+
+    <section class="block">
+      <h2>Automation 2: AI-Powered Database performance Analyzer</h2>
+      <p>This workflow illustrates an end-to-end automated framework for generating, analyzing, and distributing database performance reports using GitLab, Docker, Ansible, Python, AI, and Email integration.</p>
+
+      <div class="diagram">
+        <img src="./AI_powered_performace_analyzer.jpg" alt="AI Powered Database Performance Analyzer Automation Architecture Diagram" />
+      </div>
+
+      <h3>1. Pipeline Initiation (GitLab Automation Server)</h3>
+      <p>The process begins when a user provides the target database and server details through the GitLab pipeline. Upon deployment, GitLab triggers a predefined CI/CD pipeline that builds and launches a Docker container to execute the workflow.</p>
+
+      <h3>2. Database Performance Data Collection</h3>
+      <p>Inside the container, an Ansible playbook securely connects to the specified database server. It validates connectivity, configures the required environment variables, executes database health and performance checks, and generates a detailed performance report.</p>
+
+      <h3>3. Report Processing and AI Analysis</h3>
+      <p>The generated report is returned to the container, where a Python module converts the report into a format suitable for AI processing. The report, along with the user-defined prompt, is then submitted to the AI engine for analysis.</p>
+      <p>The AI reviews the collected performance data, identifies key insights, and generates a summarized and actionable assessment based on the user's requirements.</p>
+
+      <h3>4. Response Integration</h3>
+      <p>The AI-generated output is returned to the container and passed back to the automation workflow. The processed insights are combined with the original report to create a comprehensive deliverable.</p>
+
+      <h3>5. Automated Report Distribution</h3>
+      <p>A second Ansible playbook prepares the final email package, attaches the database performance report and AI-generated analysis, and sends it to the designated recipients.</p>
+
+      <h3>6. Final Outcome</h3>
+      <p>The end user receives a professionally formatted email containing:</p>
+      <ul>
+        <li>Detailed database performance metrics</li>
+        <li>AI-generated analysis and recommendations</li>
+        <li>Actionable insights for database optimization and troubleshooting</li>
+      </ul>
+
+      <h3>Key Benefits</h3>
+      <ul>
+        <li>Fully Automated Process - Eliminates manual report generation and analysis.</li>
+        <li>Scalable Architecture - Containerized execution enables easy deployment across environments.</li>
+        <li>AI-Powered Insights - Converts raw database metrics into meaningful recommendations.</li>
+        <li>Secure and Repeatable - Uses Ansible automation and GitLab CI/CD for standardized execution.</li>
+        <li>Faster Decision-Making - Delivers actionable performance insights directly to stakeholders via email.</li>
+      </ul>
+
+      <p>The solution automates the complete lifecycle of database performance assessment—from data collection and AI-driven analysis to report delivery—providing users with timely, consistent, and actionable database health insights.</p>
+    </section>
+
+    <div class="actions">
+      <a class="btn back" href="./index.html">Back to Resume</a>
+    </div>
+  </main>
+</body>
+</html>
