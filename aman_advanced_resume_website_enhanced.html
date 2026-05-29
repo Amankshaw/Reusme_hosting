@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aman Kumar Shaw | Oracle DBA & SRE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@500;700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #07151c;
+  --bg-soft: #0f2530;
+  --panel: rgba(16, 40, 52, 0.74);
+  --panel-border: rgba(143, 211, 192, 0.2);
+  --text: #eaf4f3;
+  --muted: #a9bfba;
+  --accent: #18c7a3;
+  --accent-2: #ffb84d;
+  --danger: #ff6f61;
+  --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(24, 199, 163, 0.22), transparent 35%),
+    radial-gradient(circle at 88% 4%, rgba(255, 184, 77, 0.2), transparent 30%),
+    linear-gradient(145deg, #041018 0%, #0d202a 45%, #061118 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+  z-index: -2;
+}
+
+.orb {
+  position: fixed;
+  width: 42vw;
+  height: 42vw;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.23;
+  z-index: -1;
+}
+
+.orb.one {
+  left: -12vw;
+  top: 12vh;
+  background: #1cd8ad;
+  animation: driftA 16s ease-in-out infinite;
+}
+
+.orb.two {
+  right: -14vw;
+  bottom: 0;
+  background: #ffd18b;
+  animation: driftB 18s ease-in-out infinite;
+}
+
+@keyframes driftA {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(60px, -55px); }
+}
+
+@keyframes driftB {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-70px, 50px); }
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(12px);
+  background: rgba(5, 18, 26, 0.74);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.brand {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: #dbf9f2;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  color: var(--accent-2);
+}
+
+main {
+  width: min(1220px, 92%);
+  margin: 0 auto;
+}
+
+header {
+  min-height: calc(100vh - 65px);
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 26px;
+  align-items: center;
+  padding: 50px 0 30px;
+}
+
+h1 {
+  font-family: "Sora", sans-serif;
+  font-size: clamp(2.7rem, 6.4vw, 5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+
+.gradient-text {
+  background: linear-gradient(95deg, #aefce9, #18c7a3 35%, #ffcb75 78%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title {
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 1.05rem;
+  margin-bottom: 20px;
+}
+
+.summary {
+  max-width: 67ch;
+  line-height: 1.8;
+  color: #ddf0ec;
+  margin-bottom: 26px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+}
+
+.btn-primary {
+  color: #03211b;
+  background: linear-gradient(115deg, #20d8b2, #89f2db);
+  box-shadow: 0 10px 24px rgba(29, 216, 175, 0.28);
+}
+
+.btn-secondary {
+  color: #ffe4b6;
+  border: 1px solid rgba(255, 210, 136, 0.4);
+  background: rgba(255, 194, 104, 0.08);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.kpi {
+  padding: 24px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.kpi-item {
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.kpi-item h3 {
+  color: var(--accent);
+  font-family: "Sora", sans-serif;
+  font-size: 1.8rem;
+}
+
+.kpi-item p {
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+section {
+  padding: 72px 0;
+}
+
+.section-heading {
+  font-family: "Sora", sans-serif;
+  font-size: clamp(1.8rem, 3.6vw, 2.65rem);
+  margin-bottom: 28px;
+}
+
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  padding: 24px;
+  border-radius: 18px;
+  background: rgba(8, 31, 41, 0.75);
+  border: 1px solid rgba(171, 226, 208, 0.16);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 199, 109, 0.38);
+}
+
+.card h3 {
+  color: #ffc66a;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #d7eae5;
+  line-height: 1.7;
+}
+
+.cert-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.cert-link h3 {
+  transition: color 0.2s ease;
+}
+
+.cert-link:hover h3 {
+  color: #ffe1aa;
+}
+
+.skills-layout {
+  display: grid;
+  grid-template-columns: 0.95fr 1.25fr;
+  gap: 16px;
+}
+
+.skills-menu {
+  padding: 14px;
+}
+
+.skills-menu h3 {
+  margin: 6px 8px 12px;
+  color: #d6f7ef;
+}
+
+.skill-option {
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  color: #d7eae5;
+  padding: 13px 15px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.2s ease, background 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.skill-option:hover {
+  border-color: rgba(255, 198, 106, 0.5);
+  transform: translateX(4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.skill-option.active {
+  background: linear-gradient(120deg, rgba(24, 199, 163, 0.24), rgba(24, 199, 163, 0.07));
+  border-color: rgba(24, 199, 163, 0.56);
+  color: #eafcf8;
+}
+
+.skill-option::after {
+  content: "›";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8fdcca;
+  font-size: 1.15rem;
+  opacity: 0.75;
+}
+
+.skill-option.active::after {
+  color: #b2ffe9;
+  opacity: 1;
+}
+
+.skills-detail {
+  padding: 24px 24px;
+  min-height: 320px;
+  background: radial-gradient(circle at 80% 25%, rgba(24, 199, 163, 0.16), transparent 42%), rgba(8, 31, 41, 0.82);
+  border: 1px solid rgba(143, 211, 192, 0.28);
+}
+
+.skills-detail h3 {
+  color: #ffc66a;
+  margin-bottom: 8px;
+}
+
+.skills-detail p {
+  color: #d7eae5;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.skills-detail ul {
+  padding-left: 18px;
+}
+
+.skills-detail li {
+  color: #d7eae5;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.skills-detail.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skills-detail.empty h3,
+.skills-detail.empty p,
+.skills-detail.empty ul {
+  display: none;
+}
+
+.skills-placeholder {
+  color: rgba(219, 241, 235, 0.56);
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  border: 1px dashed rgba(173, 226, 212, 0.32);
+  border-radius: 12px;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.timeline {
+  position: relative;
+  margin-left: 18px;
+  display: grid;
+  gap: 16px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, #1fd0ac, #ffd18b);
+}
+
+.role {
+  position: relative;
+  padding: 24px;
+}
+
+.role::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 30px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1ed2ae;
+  box-shadow: 0 0 0 4px rgba(30, 210, 174, 0.2);
+}
+
+.role h3 {
+  color: #d3fff5;
+  font-size: 1.35rem;
+}
+
+.role h4 {
+  color: #ffc66a;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.role small {
+  color: var(--muted);
+}
+
+.role ul {
+  margin-top: 14px;
+  padding-left: 18px;
+}
+
+.role li {
+  margin-bottom: 9px;
+  line-height: 1.6;
+  color: #d8ece7;
+}
+
+.education {
+  padding: 28px;
+}
+
+.edu-block + .edu-block {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+}
+
+footer {
+  margin: 72px 0 56px;
+  padding: 34px;
+  text-align: center;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0 20px;
+}
+
+.contact a {
+  text-decoration: none;
+  color: #ffdfac;
+  padding: 11px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 198, 106, 0.4);
+  background: rgba(255, 184, 77, 0.08);
+}
+
+.contact a:hover {
+  background: rgba(255, 184, 77, 0.16);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 960px) {
+  header {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-top: 36px;
+  }
+
+  .timeline {
+    margin-left: 12px;
+  }
+
+  .role::before {
+    left: -20px;
+  }
+
+  .skills-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .nav-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  section {
+    padding: 56px 0;
+  }
+
+  footer {
+    padding: 24px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="orb one"></div>
+<div class="orb two"></div>
+
+<nav>
+  <div class="nav-wrap">
+    <div class="brand">Aman Kumar Shaw</div>
+    <ul>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <header>
+    <div class="reveal">
+      <h1><span class="gradient-text">AMAN KUMAR SHAW</span></h1>
+      <p class="title">Oracle Database Administrator • Site Reliability Engineer • DevOps Automation Engineer</p>
+      <p class="summary">
+        Oracle Database Administrator and Site Reliability Engineer with 7+ years of experience in managing, automating, and optimizing large-scale enterprise production environments.
+        Expert in Oracle RAC, Data Guard, RMAN, Exadata, CI/CD pipelines, infrastructure automation, and cloud technologies including AWS, OCI, and Azure.
+        Passionate about building highly available, scalable, secure, and automated database ecosystems.
+      </p>
+      <div class="button-row">
+        <a href="#experience" class="btn btn-primary">Explore Experience</a>
+        <a href="#contact" class="btn btn-secondary">Hire Me</a>
+      </div>
+    </div>
+
+    <aside class="panel kpi reveal">
+      <div class="kpi-grid">
+        <div class="kpi-item">
+          <h3>7+</h3>
+          <p>Years Experience</p>
+        </div>
+        <div class="kpi-item">
+          <h3>200+</h3>
+          <p>Database Upgrades & Migrations</p>
+        </div>
+        <div class="kpi-item">
+          <h3>OCI</h3>
+          <p>Architect Associate Certified</p>
+        </div>
+        <div class="kpi-item">
+          <h3>20+</h3>
+          <p>Automation Workflows Delivered</p>
+        </div>
+      </div>
+    </aside>
+  </header>
+
+  <section id="skills" class="reveal">
+    <h2 class="section-heading">Skills & Technologies</h2>
+    <div class="skills-layout">
+      <aside class="panel skills-menu">
+        <h3>Select a Category</h3>
+        <button class="skill-option" data-skill="db">Database Technologies</button>
+        <button class="skill-option" data-skill="oracle">Oracle Technologies</button>
+        <button class="skill-option" data-skill="devops">DevOps Tools</button>
+        <button class="skill-option" data-skill="script">Programming & Scripting</button>
+        <button class="skill-option" data-skill="monitoring">Monitoring & ITSM</button>
+        <button class="skill-option" data-skill="cloud">Cloud Platforms</button>
+        <button class="skill-option" data-skill="os">Operating Systems</button>
+      </aside>
+      <article class="panel skills-detail empty" id="skills-detail-panel">
+        <h3 id="skill-title">Database Technologies</h3>
+        <p id="skill-summary">Core database engines and enterprise administration expertise.</p>
+        <ul id="skill-list">
+          <li>Oracle (10g-19c)</li>
+          <li>Oracle RAC</li>
+          <li>MySQL</li>
+          <li>PostgreSQL</li>
+        </ul>
+        <div class="skills-placeholder" id="skills-placeholder">Choose a category from the left to view details.</div>
+      </article>
+    </div>
+  </section>
+
+  <section id="experience" class="reveal">
+    <h2 class="section-heading">Professional Journey</h2>
+    <div class="timeline">
+      <article class="panel role">
+        <h3>Site Reliability Engineer</h3>
+        <h4>Tata Consultancy Services</h4>
+        <small>Feb 2025 - Present • Kolkata, West Bengal</small>
+        <ul>
+          <li>Developed and implemented CI/CD pipelines for AI-powered Oracle database performance analyzer systems.</li>
+          <li>Built automated Oracle database provisioning workflows using Ansible.</li>
+          <li>Implemented bulk Oracle database start/stop automation pipelines using shell scripting and Ansible.</li>
+          <li>Designed CI/CD pipelines for executing scripts across multiple enterprise databases.</li>
+          <li>Automated Oracle export/import activities using Ansible-based workflows.</li>
+          <li>Implemented automation to prevent application user password expiry in Oracle databases.</li>
+          <li>Worked on large-scale production reliability engineering initiatives for a European Telecommunication Company.</li>
+        </ul>
+      </article>
+
+      <article class="panel role">
+        <h3>Senior Database Administrator</h3>
+        <h4>Tata Consultancy Services</h4>
+        <small>Mar 2022 - Present • Kolkata, West Bengal</small>
+        <ul>
+          <li>Installed, configured, and maintained Oracle databases across Linux, CentOS, OCI, and AWS EC2 environments.</li>
+          <li>Designed best practices for Oracle setup, sizing, monitoring, backup, recovery, and capacity planning.</li>
+          <li>Performed Oracle RAC performance tuning using AWR/ASH reports and optimized SQL queries.</li>
+          <li>Handled Oracle Home and Grid patching through OCI.</li>
+          <li>Implemented Oracle Data Guard physical standby environments for HA/DR architecture.</li>
+          <li>Configured Enterprise Manager (OEM) jobs and monitoring events.</li>
+          <li>Performed Oracle Database upgrades to 19C.</li>
+          <li>Migrated Oracle databases from lower RHEL/CentOS versions to latest RHEL environments.</li>
+          <li>Automated backup reporting through shell scripting.</li>
+          <li>Migrated production databases from Windows Server to Linux Server.</li>
+          <li>Managed backup and recovery operations using RMAN.</li>
+          <li>Performed database refresh/cloning using RMAN Duplicate and RMAN backup methods.</li>
+          <li>Automated RMAN refresh processes for legacy 9i databases using shell scripting.</li>
+          <li>Performed quarterly production and test environment Oracle patching activities.</li>
+          <li>Maintained multi-node Oracle RAC environments on Exadata systems.</li>
+          <li>Developed health check and monitoring shell scripts integrated with crontab scheduling.</li>
+          <li>Raised Oracle Service Requests (SRs) and collaborated directly with Oracle Support teams.</li>
+          <li>Provided on-call support and resolved critical production incidents.</li>
+          <li>Resolved database auditing related performance degradation issues by optimizing audit configurations.</li>
+        </ul>
+      </article>
+
+      <article class="panel role">
+        <h3>Database Administrator</h3>
+        <h4>Accenture</h4>
+        <small>Jan 2020 - Mar 2022 • Kolkata, West Bengal</small>
+        <ul>
+          <li>Performed point-in-time cross restoration of Oracle and PostgreSQL databases.</li>
+          <li>Handled Oracle, PostgreSQL, and MySQL database creation and decommissioning activities.</li>
+          <li>Automated database binary patching using Ansible.</li>
+          <li>Executed migration and patching from lower to higher database environments.</li>
+          <li>Performed database refresh operations using RMAN and Data Pump utilities.</li>
+          <li>Conducted performance tuning using Automated Workload Repository (AWR).</li>
+          <li>Reduced production incidents through root-cause analysis and proactive fixes.</li>
+          <li>Developed automation scripts using shell scripting.</li>
+          <li>Troubleshot critical production database issues within SLA timelines.</li>
+          <li>Managed production incidents, problems, and changes using enterprise ticketing tools.</li>
+          <li>Supported and maintained 24x7 production database environments.</li>
+          <li>Automated weekly schema refresh activities using shell scripts.</li>
+          <li>Performed daily Oracle health checks and monitoring.</li>
+          <li>Analyzed monthly database growth trends and storage utilization.</li>
+          <li>Monitored Oracle services using OEM 11g and 12c.</li>
+          <li>Handled end-to-end production incident resolution responsibilities.</li>
+        </ul>
+      </article>
+
+      <article class="panel role">
+        <h3>Oracle Database Administrator</h3>
+        <h4>Cognizant Technology Solutions</h4>
+        <small>Nov 2018 - Jan 2020 • Kolkata, West Bengal</small>
+        <ul>
+          <li>Managed and supported 24x7 enterprise production Oracle database environments.</li>
+          <li>Ensured maximum database availability across business-critical applications.</li>
+          <li>Automated weekly schema refresh activities using shell scripting.</li>
+          <li>Performed Oracle daily health check reporting and monitoring.</li>
+          <li>Conducted monthly database growth analysis and capacity planning.</li>
+          <li>Monitored Oracle services using Oracle Enterprise Manager 11g and 12c.</li>
+          <li>Handled production incident management and issue resolution ownership.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="certifications" class="reveal">
+    <h2 class="section-heading">Certifications</h2>
+    <div class="cert-grid">
+      <article class="card">
+        <a class="cert-link" href="./oracle_oci_certificate.html">
+          <h3>Oracle Cloud Infrastructure 2025 Certified Architect Associate</h3>
+        </a>
+      </article>
+      <article class="card">
+        <a class="cert-link" href="./aws_certificate.html">
+          <h3>AWS Certified Solutions Architect - 2020</h3>
+        </a>
+      </article>
+      <article class="card"><h3>Oracle Database 19C Administration Workshop Training</h3></article>
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <h2 class="section-heading">Education</h2>
+    <div class="panel education">
+      <div class="edu-block">
+        <h3>Bachelor of Technology - Electronics & Communication Engineering</h3>
+        <p class="muted">MCKV Institute of Engineering • MAKAUT • Howrah, West Bengal</p>
+        <p>CGPA: 7.89</p>
+      </div>
+      <div class="edu-block">
+        <h3>Intermediate - Science</h3>
+        <p class="muted">M.G. Rungta Academy • WBCHSE • Kolkata, West Bengal</p>
+      </div>
+      <div class="edu-block">
+        <h3>Matriculation</h3>
+        <p class="muted">Khalsa High School • WBBSE • Kolkata, West Bengal</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact" class="panel reveal">
+    <h2 class="section-heading">Let's Connect</h2>
+    <div class="contact">
+      <a href="mailto:amanshaw03@gmail.com">Email Me</a>
+      <a href="tel:+919088267526">Call Me</a>
+      <a href="https://linkedin.com/in/aman-kumar-shaw-b5409511b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p class="muted">Kolkata, West Bengal, India</p>
+    <p class="muted">© 2026 Aman Kumar Shaw • Oracle DBA & SRE Portfolio</p>
+  </footer>
+</main>
+
+<script>
+const revealElements = document.querySelectorAll('.reveal');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+revealElements.forEach((el) => observer.observe(el));
+
+const skillsData = {
+  db: {
+    title: 'Database Technologies',
+    summary: 'Core database engines and enterprise administration expertise.',
+    items: ['Oracle (9i - 19c)', 'Oracle RAC', 'MySQL', 'PostgreSQL']
+  },
+  oracle: {
+    title: 'Oracle Technologies',
+    summary: 'High-availability, backup, and performance tooling in Oracle stacks.',
+    items: ['Data Guard', 'Real Application Cluster (RAC)', 'Automatic Storage Management (ASM)', 'Recovery Manager (RMAN)', 'Oracle Enterprise Manager (OEM)', 'Exadata and ExaCC']
+  },
+  devops: {
+    title: 'DevOps Tools',
+    summary: 'Automation-first delivery toolchain for reliability and speed.',
+    items: ['Ansible and AWX', 'GitLab CI/CD Pipelines', 'Docker']
+  },
+  script: {
+    title: 'Programming & Scripting',
+    summary: 'Production-grade scripting for operations and platform automation.',
+    items: ['Shell Scripting', 'Python', 'Ansible YAML', 'SQL', 'PL/SQL']
+  },
+  monitoring: {
+    title: 'Monitoring & ITSM',
+    summary: 'Observability and incident/change process management tools.',
+    items: ['ServiceNow (SNOW)', 'HPSM and HPPM', 'Oracle Enterprise Manager', 'Grafana', 'Prometheus']
+  },
+  cloud: {
+    title: 'Cloud Platforms',
+    summary: 'Multi-cloud operations for scalable and resilient database systems.',
+    items: ['Amazon Web Services (AWS)', 'Oracle Cloud Infrastructure (OCI)']
+  },
+  os: {
+  title: 'Operating Systems',
+  summary: 'Enterprise server operating systems supporting mission-critical database and application workloads.',
+  items: ['Oracle Linux','Red Hat Enterprise Linux (RHEL)','CentOS','IBM AIX','Ubuntu Linux','Windows Server']
+}
+};
+
+const skillOptions = document.querySelectorAll('.skill-option');
+const skillsDetailPanel = document.getElementById('skills-detail-panel');
+const skillTitle = document.getElementById('skill-title');
+const skillSummary = document.getElementById('skill-summary');
+const skillList = document.getElementById('skill-list');
+const skillsPlaceholder = document.getElementById('skills-placeholder');
+
+function renderSkill(key) {
+  const data = skillsData[key];
+  if (!data) {
+    skillsDetailPanel.classList.add('empty');
+    skillsPlaceholder.style.display = 'block';
+    return;
+  }
+  skillsDetailPanel.classList.remove('empty');
+  skillsPlaceholder.style.display = 'none';
+  skillTitle.textContent = data.title;
+  skillSummary.textContent = data.summary;
+  skillList.innerHTML = data.items.map((item) => `<li>${item}</li>`).join('');
+}
+
+skillOptions.forEach((option) => {
+  option.addEventListener('click', () => {
+    const alreadyActive = option.classList.contains('active');
+    skillOptions.forEach((btn) => btn.classList.remove('active'));
+    if (alreadyActive) {
+      renderSkill(null);
+      return;
+    }
+    option.classList.add('active');
+    renderSkill(option.dataset.skill);
+  });
+});
+
+renderSkill(null);
+</script>
+</body>
+</html>
